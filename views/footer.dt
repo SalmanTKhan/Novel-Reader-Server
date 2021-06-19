@@ -1,0 +1,5 @@
+footer(class="bd-footer py-3 mt-3 bg-dark")
+  div.container
+    div.row
+      div.col-8
+        div(class="footer-copyright text-center text-light py-3") © 2021 Copyright: All rights reserved.

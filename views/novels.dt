@@ -1,0 +1,75 @@
+extends bootstrap
+block header_content
+  title Novels
+  :css
+    div.card-img-overlay { position: absolute; bottom: 0; background: rgb(0, 0, 0); background: rgba(0, 0, 0, 0.5); width: 100%; padding: 20px; }
+    ol.breadcrumb {
+      padding: 12px 16px;
+      list-style: none;
+      background-color: #eee;
+      font-size: 17px;
+    }
+block content
+  nav(aria-label="breadcrumb")
+    ol(class="breadcrumb")
+      li(class="breadcrumb-item active", aria-current="page")
+        <i class="bi bi-house-fill"></i>
+        a(href="/") Home
+  - if (req.session)
+    nav(id="sidebarMenu", class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse")
+      div(class="position-sticky pt-3")
+        h5 Recently Read
+        - foreach(i; 0 .. user_history.length)
+          ul(class="nav flex-column")
+            li(class="nav-item")
+              div(class="accordion accordion-flush", id="accordionRecentlyRead")
+                div(class="accordion-item")
+                  h2(class="accordion-header", id="flush-heading#{i}")
+                    button(class="accordion-button collapsed", type="button", data-bs-toggle="collapse", data-bs-target="#flush-collapse#{i}", aria-expanded="false", aria-controls="flush-collapse#{i}") #{user_history[i].novel.title}
+                  div(id="flush-collapse#{i}", class="accordion-collapse collapse", aria-labelledby="flush-heading#{i}", data-bs-parent="#accordionRecentlyRead")
+                    div(class="accordion-body") 
+                      a(href="/chapter/#{user_history[i].chapter.id}") #{user_history[i].chapter.title}          
+    main(class="col-md-9 ms-sm-auto col-lg-10 px-md-4")
+      - if (error.length)
+        div(class="alert alert-warning alert-dismissible fade show", role="alert")
+          p.error= error
+          button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
+      - if (novels.length == 0)
+        div.row.row-cols-md
+          div.row.card.text-center.bg-dark.text-white:
+            div.row.card.text-center.bg-dark.text-white
+              div.card-footer.bg-dark.text-white
+                h5.card-text No result found
+                p.card-text.text-muted
+      - else
+        div.row(data-masonry='{"percentPosition": true }')
+          - foreach(i; 0 .. novels.length)
+            div(class="col-sm-6 col-lg-4 mb-4")
+              div.card.text-center.bg-dark.text-white: a.list-group-item.list-group-item-action(href="/novel/#{novels[i].id}/1")
+                img(src="#{novels[i].cover_url}")
+                div.card-footer.bg-dark.text-white
+                  h5.card-text #{novels[i].title}
+                  p.card-text.text-muted #{novels[i].author}
+  - else
+    div
+      - if (error.length)
+        div(class="alert alert-warning alert-dismissible fade show", role="alert")
+          p.error= error
+          button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
+      - if (novels.length == 0)
+        div.row.row-cols-md
+          div.row.card.text-center.bg-dark.text-white:
+            div.row.card.text-center.bg-dark.text-white
+              div.card-footer.bg-dark.text-white
+                h5.card-text No result found
+                p.card-text.text-muted
+      - else
+        div.row(data-masonry='{"percentPosition": true }')
+          - foreach(i; 0 .. novels.length)
+            div(class="col-sm-6 col-lg-4 mb-4")
+              div.card.text-center.bg-dark.text-white: a.list-group-item.list-group-item-action(href="/novel/#{novels[i].id}/1")
+                img(src="#{novels[i].cover_url}")
+                div.card-footer.bg-dark.text-white
+                  h5.card-text #{novels[i].title}
+                  p.card-text.text-muted #{novels[i].author}
+  script(async, src="js/masonry.pkgd.min.js", integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D", crossorigin="anonymous")

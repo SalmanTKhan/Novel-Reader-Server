@@ -1,0 +1,73 @@
+extends bootstrap
+block header_content
+  title #{novel.title}
+  :css
+    p { font-size: 2.5rem; }
+    ol.breadcrumb {
+      padding: 12px 16px;
+      list-style: none;
+      background-color: #eee;
+    }
+block content
+  nav(aria-label="breadcrumb")
+    ol(class="breadcrumb")
+      li(class="breadcrumb-item")
+        <i class="bi bi-house-fill"></i>
+        a(href="/") Home
+      li(class="breadcrumb-item active", aria-current="page")
+        a(href="/novel/#{novel.id}") #{novel.title}
+  div.container-fluid
+    div
+      div.card.m-1.p-1.bg-dark.text-white.text-center
+        div.row
+          div.container-fluid.col-md-4
+            h3.title #{novel.title}
+              div.container-fluid
+                img.img-fluid.img-thumbnail.mx-auto.d-block(src="#{novel.cover_url}")
+          div#info.container-fluid
+            div
+              h3 Author:
+              p #{novel.author}
+            div
+              h3 Alternative Names:
+              p #{novel.aliases}
+            div
+              h3 Genre(s):
+              p #{novel.genres}
+            div
+              h3 Status:
+              - if (novel.status == 1)
+                p Completed
+              - else
+                p Ongoing
+            div
+              h3 Summary:
+              p #{novel.summary}
+      nav(aria-label="chapter-pages")
+        ul(class="pagination justify-content-center")
+          - if (page == 1)
+            li(class="page-item disabled")
+              a.page-link(href="/novel/#{novel.id}/1", aria-label="Previous")
+                span(aria-hidden="true") &laquo;
+          - else
+            li(class="page-item")
+              a.page-link(href="/novel/#{novel.id}/#{page-1}", aria-label="Previous")
+                span(aria-hidden="true") &laquo;
+          - if (novel.chapter_count / 50 < 20)
+            - foreach( i; 1 .. novel.chapter_count / 50)
+              li.page-item: a.page-link(href="/novel/#{novel.id}/#{i}") #{i}
+          - else
+            - foreach( i; 1 .. novel.chapter_count / 50)
+              li.page-item: a.page-link(href="/novel/#{novel.id}/#{i}") #{i}
+          - if (page == novel.chapter_count / 50)
+            li(class="page-item disabled")
+              a(class="page-link", href="/novel/#{novel.id}/#{novel.chapter_count / 50}", aria-label="Next")
+                span(aria-hidden="true") &raquo;
+          - else
+            li(class="page-item")
+              a(class="page-link", href="/novel/#{novel.id}/#{page+1}", aria-label="Next")
+                span(aria-hidden="true") &raquo;
+      div.card.m-1.p-1.bg-dark.text-white
+        div.list-group:
+          - foreach( i; 0 .. chapters.length )
+            a.list-group-item.list-group-item-action(href="/chapter/#{chapters[i].id}") #{chapters[i].title}

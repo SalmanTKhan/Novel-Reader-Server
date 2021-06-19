@@ -1,0 +1,80 @@
+extends bootstrap
+block header_content
+  title #{chapter.title}
+  :css
+    p { font-size: 2.5rem; }
+    ol.breadcrumb {
+      padding: 12px 16px;
+      list-style: none;
+      background-color: #eee;
+      font-size: 17px;
+    }
+  :javascript
+    document.addEventListener('keydown', function onEvent(event) {
+      switch (event.key) {
+        case "ArrowLeft":
+          window.location.replace(document.getElementById("prev_chap").getAttribute("href"));
+          break;
+        case "ArrowRight":
+          window.location.replace(document.getElementById("next_chap").getAttribute("href"));
+          break;
+      }
+    });
+block content
+  nav(aria-label="breadcrumb")
+    ol(class="breadcrumb")
+      li(class="breadcrumb-item")
+        <i class="bi bi-house-fill"></i>
+        a(href="/") Home
+      li(class="breadcrumb-item")
+        a(href="/novel/#{novel.id}") #{novel.title}
+      li(class="breadcrumb-item active", aria-current="page")
+        a(href="/chapter/#{chapter.id}") #{chapter.title}
+  div(class="container-fluid p-2")
+    ul(class="list-group list-group-horizontal justify-content-center")
+      - if (chapter.position == 0)
+        li(class="list-group-item disabled")
+          a.page-link(href="/chapter/#{chapter.id}", aria-label="Previous")
+            span(aria-hidden="true") &laquo;
+      - else
+        li(class="list-group-item")
+          a.page-link(id="prev_chap", href="/chapter/#{chapters[chapter.position-1].id}", aria-label="Previous")
+            span(aria-hidden="true") &laquo;
+      li(class="list-group-item")
+        div.dropdown.mx-auto
+          button#chapter-list.btn.btn-secondary.dropdown-toggle(type="button", data-bs-toggle="dropdown", aria-expanded="false") #{chapter.title}
+          ul.dropdown-menu#chapter-list(style="max-height: 400px; overflow-y: auto;", aria-labelledby="chapter-list")
+            - foreach( i; 0 .. chapters.length )
+              li: a.dropdown-item(href="/chapter/#{chapters[i].id}") #{chapters[i].title}
+      - if (chapter.position == (chapters.length - 1))
+        li(class="list-group-item disabled")
+          a.page-link(href="/chapter/#{chapter.id}", aria-label="Next")
+            span(aria-hidden="true") &raquo;
+      - else
+        li(class="list-group-item")
+          a.page-link(id="next_chap", href="/chapter/#{chapters[chapter.position+1].id}", aria-label="Next")
+            span(aria-hidden="true") &raquo;
+    div.card.m-3.p-5.bg-dark.text-white !{chapter.text}
+    ul(class="list-group list-group-horizontal justify-content-center")
+      - if (chapter.position == 0)
+        li(class="list-group-item disabled")
+          a.page-link(href="/chapter/#{chapter.id}", aria-label="Previous")
+            span(aria-hidden="true") &laquo;
+      - else
+        li(class="list-group-item")
+          a.page-link(href="/chapter/#{chapters[chapter.position-1].id}", aria-label="Previous")
+            span(aria-hidden="true") &laquo;
+      li(class="list-group-item")
+        div.dropdown.mx-auto
+          button#chapter-list.btn.btn-secondary.dropdown-toggle(type="button", data-bs-toggle="dropdown", aria-expanded="false") #{chapter.title}
+          ul.dropdown-menu#chapter-list(style="max-height: 400px; overflow-y: auto;", aria-labelledby="chapter-list")
+            - foreach( i; 0 .. chapters.length )
+              li: a.dropdown-item(href="/chapter/#{chapters[i].id}") #{chapters[i].title}
+      - if (chapter.position == (chapters.length - 1))
+        li(class="list-group-item disabled")
+          a.page-link(href="/chapter/#{chapter.id}", aria-label="Next")
+            span(aria-hidden="true") &raquo;
+      - else
+        li(class="list-group-item")
+          a.page-link(href="/chapter/#{chapters[chapter.position+1].id}", aria-label="Next")
+            span(aria-hidden="true") &raquo;
