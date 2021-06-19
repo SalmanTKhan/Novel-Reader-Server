@@ -1,5 +1,5 @@
 # Novel Reader Server
- A novel reader server written in D.
+ A novel reader server written in D. No database is provided, you can use the builtin commands to build it, as the size is currently sitting at 3.0GB while still building chapter text database.
  
 ## Screenshots
 ![screenshots of NRS](./.github/screenshots/NRS_Novels_Page.png)
