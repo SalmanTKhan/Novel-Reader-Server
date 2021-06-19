@@ -3,6 +3,7 @@
 
 ## Features
 
+* Database builder from a source (Currently 1 parser included).
 * Online reading from web server
 * Account based novel/chapter tracking.
 
@@ -12,7 +13,7 @@
 ![screenshots of NRS](./.github/screenshots/NRS_Chapter_Page.png)
 
 ## Configuration
-Change Novel Reader Server binding addresses and port
+Change Novel Reader Server binding addresses, port and api access via updating the novel_reader_server.cfg file.
 ```cfg
 ipv4 = "127.0.0.1"
 ipv6 = "::1"
