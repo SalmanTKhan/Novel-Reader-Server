@@ -10,6 +10,15 @@
 ![screenshots of NRS](./.github/screenshots/NRS_Novels_Page.png)
 ![screenshots of NRS](./.github/screenshots/NRS_Novel_Page.png)
 ![screenshots of NRS](./.github/screenshots/NRS_Chapter_Page.png)
+
+## Configuration
+Change Novel Reader Server binding addresses and port
+```cfg
+ipv4 = "127.0.0.1"
+ipv6 = "::1"
+port = 8080
+api = false
+```
  
 ## Why does this project exist?
  To learn D and implement a complete project that uses different technologies. Usually an example in a language is provided with barebone functionality and features.

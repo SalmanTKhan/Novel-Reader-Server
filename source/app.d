@@ -7,11 +7,32 @@ import novelreader.database;
 import novelreader.databasebuilder;
 import novelreader.webservice;
 
+import simpleconfig;
+
+struct Config
+{
+	@cli("ipv4") @cfg("ipv4")
+	string ipv4 = "127.0.0.1"; /// Address to bind web server to
+	@cli("ipv6") @cfg("ipv6")
+	string ipv6 = "::1"; /// Address to bind web server to
+	@cli("port") @cfg("port")
+	ushort port = 8080; /// Port to bind web server to
+	@cli("api") @cfg("api")
+	bool api = true; /// Port to bind web server to
+	
+	void finalizeConfig ()
+	{
+		// Additional Checks (Unused)
+	}
+}
+
 /++
  Main
 ++/
 void main()
 {
+	Config config;
+    readConfiguration(config);
     NovelDB db = new NovelDB();
     NovelDatabaseBuilder builder = new NovelDatabaseBuilder(db);
 	string line = "";
@@ -36,7 +57,7 @@ void main()
 					builder.buildChapterTextDatabase();
 					break;
 				case('R'):
-					runWebServer(db);
+					runWebServer(db, config);
 					return;
 				case('Q'):
 					return;
@@ -50,14 +71,22 @@ void main()
 /++
  Run Vibe.d Web Server
 ++/
-void runWebServer(NovelDB db)
-{
+void runWebServer(NovelDB db, Config config)
+{	
     auto router = new URLRouter;
     auto settings = new HTTPServerSettings;
-    settings.port = 8080;
-    settings.bindAddresses = [ "::1", "127.0.0.1"];
+    settings.port = config.port;
+	if (config.ipv6 != "" && config.ipv4 != "")
+		settings.bindAddresses = [config.ipv6, config.ipv4];
+	else if (config.ipv6 != "")
+		settings.bindAddresses = [config.ipv6];
+	else if (config.ipv4 != "")
+		settings.bindAddresses = [config.ipv4];
     settings.sessionStore = new MemorySessionStore;
-    router.registerRestInterface( new RestAPI( db));
+	if (config.api) {
+		logInfo("Enabling API access");
+    	router.registerRestInterface( new RestAPI( db));
+	}
     router.registerWebInterface( new WebService( db));
     auto listener = listenHTTP( settings, router);
     scope (exit)
@@ -65,6 +94,9 @@ void runWebServer(NovelDB db)
         listener.stopListening();
     }
 
-    logInfo( "Please open http://127.0.0.1:8080/ in your browser.");
+	if (config.ipv4 != "")
+    	logInfo( "Please open http://%s:%s/ in your browser.", config.ipv4, config.port);
+	if (config.ipv6 != "")
+		logInfo( "Please open http://%s:%s/ in your browser.", config.ipv6, config.port);
     runApplication();
 }
