@@ -1,5 +1,5 @@
 div(class="modal fade", id="loginModal", tabindex="-1", aria-labelledby="loginModal", aria-hidden="true")
-  form(method="POST", action="login", accept-charset="UTF-8")
+  form(method="POST", action="#{req.rootDir}login", accept-charset="UTF-8")
     div(class="modal-dialog modal-dialog-centered")
       div(class="modal-content")
         div(class="modal-header", id="loginModalLabel")
@@ -13,7 +13,7 @@ div(class="modal fade", id="loginModal", tabindex="-1", aria-labelledby="loginMo
           input(class="btn btn-primary btn-login", type="submit", value="Login")
 
 div(class="modal fade", id="signupModal", tabindex="-1", aria-labelledby="signupModal", aria-hidden="true")
-  form(method="POST", action="signup", accept-charset="UTF-8")
+  form(method="POST", action="#{req.rootDir}signup", accept-charset="UTF-8")
     div(class="modal-dialog modal-dialog-centered")
       div(class="modal-content")
         div(class="modal-header", id="signupModalLabel")

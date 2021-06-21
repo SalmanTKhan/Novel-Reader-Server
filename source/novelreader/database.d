@@ -511,6 +511,7 @@ class NovelDB: NovelDatabase,UserDatabase,ReadHistoryDatabase {
         user.password_hash = result[2];
         user.email = result[3];
         user.last_ip = result[4];
+        user.type = to!int(result[5]);
         return user;
     }
 

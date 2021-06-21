@@ -160,6 +160,8 @@ class WebService
 			if (dbUser !is null) {
 				enforce(checkBcrypt(password, dbUser.password_hash), "Invalid password."); /// Validate password and hashed password
 				AuthInfo s = {userName: user};
+				s.admin = dbUser.type == 2;
+				s.premium = dbUser.type == 1;
 				req.session = res.startSession;
 				req.session.set("auth", s);
 				redirect("./");

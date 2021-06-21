@@ -44,6 +44,7 @@ class User {
     string password_hash; /// Password Hash
     string email; /// Email
     string last_ip; /// Last IP
+    int type; /// User Type
 }
 
 ///Read History Class

@@ -28,7 +28,7 @@ block content
                     button(class="accordion-button collapsed", type="button", data-bs-toggle="collapse", data-bs-target="#flush-collapse#{i}", aria-expanded="false", aria-controls="flush-collapse#{i}") #{user_history[i].novel.title}
                   div(id="flush-collapse#{i}", class="accordion-collapse collapse", aria-labelledby="flush-heading#{i}", data-bs-parent="#accordionRecentlyRead")
                     div(class="accordion-body") 
-                      a(href="/chapter/#{user_history[i].chapter.id}") #{user_history[i].chapter.title}          
+                      a(href="/chapter/#{user_history[i].chapter.id}") #{user_history[i].chapter.title}
     main(class="col-md-9 ms-sm-auto col-lg-10 px-md-4")
       - if (error.length)
         div(class="alert alert-warning alert-dismissible fade show", role="alert")
@@ -44,7 +44,7 @@ block content
       - else
         div.row(data-masonry='{"percentPosition": true }')
           - foreach(i; 0 .. novels.length)
-            div(class="col-sm-6 col-lg-4 mb-4")
+            div(class="col-sm-5 col-lg-3 mb-3")
               div.card.text-center.bg-dark.text-white: a.list-group-item.list-group-item-action(href="/novel/#{novels[i].id}/1")
                 img(src="#{novels[i].cover_url}")
                 div.card-footer.bg-dark.text-white
@@ -66,7 +66,7 @@ block content
       - else
         div.row(data-masonry='{"percentPosition": true }')
           - foreach(i; 0 .. novels.length)
-            div(class="col-sm-6 col-lg-4 mb-4")
+            div(class="col-sm-5 col-lg-3 mb-3")
               div.card.text-center.bg-dark.text-white: a.list-group-item.list-group-item-action(href="/novel/#{novels[i].id}/1")
                 img(src="#{novels[i].cover_url}")
                 div.card-footer.bg-dark.text-white

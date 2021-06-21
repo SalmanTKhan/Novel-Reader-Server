@@ -2,12 +2,13 @@ header(class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow")
   //- nav(class="navbar sticky-top navbar-light bg-light")
   div(class="container-fluid")
     a(class="navbar-brand", href="/") Novel Reader Server
-    form.d-flex(action="/search", method="POST")
+    form.d-flex(action="#{req.rootDir}search", method="POST")
       input.form-control.me-2(name="query", type="search", placeholder="Search", aria-label="Search")
       button.btn.btn-outline-success(type="submit"): i.bi.bi-search
     div(class="text-end")
       - if (req.session)
         form(method="POST", action="#{req.rootDir}logout")
+          button(type="button", class="btn btn-outline-light me-2", data-bs-toggle="modal", data-bs-target="#profileModal") Profile
           button(type="submit", class="btn btn-outline-light me-2") Logout
       - else
         button(type="button", class="btn btn-outline-light me-2", data-bs-toggle="modal", data-bs-target="#loginModal") Login
